@@ -4,7 +4,41 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 // 路由表
-const routes = []
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login')
+  },
+  {
+    path: '/',
+    name: 'layout',
+    redirect: '/home',
+    component: () => import('@/views/layout'),
+    children: [
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/home')
+      },
+      {
+        path: 'qa',
+        name: 'qa',
+        component: () => import('@/views/qa')
+      },
+      {
+        path: 'vedio',
+        name: 'vedio',
+        component: () => import('@/views/vedio')
+      },
+      {
+        path: 'my',
+        name: 'my',
+        component: () => import('@/views/my')
+      }
+    ]
+  }
+]
 
 const router = new VueRouter({
   routes
