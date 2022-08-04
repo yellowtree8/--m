@@ -25,7 +25,7 @@
           </div>
           <van-button :loading="loading" @click="oncollectUser()" class="guanzhu-btn" round type="info">{{this.info.is_followed?'已关注':'+关注'}}</van-button>
         </div>
-        <div v-if="false" class="art-text" v-html="info.content"></div>
+        <div class="art-text" ref="art-text" v-html="info.content"></div>
       </div>
       <comment-show @addCount="info.comm_count++" :artid="artid"></comment-show>
       <div class="comment">
@@ -45,6 +45,7 @@ import { getDetails, collectArticle, cancelCollect, likeArticle, cancelLike } fr
 import { collectUser, cancelCollectuser } from '@/api/user'
 import CommentShow from '@/views/detail/components/comment.vue'
 import ReplyComm from '@/views/detail/components/reply.vue'
+import { ImagePreview } from 'vant'
 export default {
   name: 'ArticleDetail',
   components: {
@@ -85,6 +86,9 @@ export default {
         this.iscollected = this.info.is_collected
         this.attitude = this.info.attitude
         console.log(data.data)
+        setTimeout(() => {
+          this.onimagePreview()
+        }, 0)
       } catch (err) {
         console.log('chucuo', err)
       }
@@ -156,6 +160,23 @@ export default {
     onclosePop () {
       this.isreply = false
       this.info.comm_count++
+    },
+    onimagePreview () {
+      // console.log(this.$refs['art-text'].querySelectorAll('img'))
+      const textnode = this.$refs['art-text']
+      const imgnode = textnode.querySelectorAll('img')
+      const images = []
+      imgnode.forEach((item, index) => {
+        images.push(item.src)
+        item.onclick = () => {
+          ImagePreview({
+            images: images,
+            startPosition: index,
+            loop: false
+          })
+        }
+      })
+      console.log(images)
     }
   }
 }
@@ -173,7 +194,7 @@ export default {
       padding-right: 38px;
       margin-top: 92px;
       .title{
-        height: 200px;
+        min-height: 200px;
         display: flex;
         align-items: center;
         h2{
@@ -217,6 +238,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-around;
+      background-color: white;
       .van-button{
         height: 50px;
         width: 286px;

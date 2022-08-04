@@ -4,6 +4,7 @@
         :title="''+item.reply_count+'条回复'"
         left-text="返回"
         left-arrow
+        @click-left="$emit('closePop')"
       />
       <van-list
         v-model="loading"

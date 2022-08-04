@@ -6,6 +6,11 @@ Vue.use(VueRouter)
 // 路由表
 const routes = [
   {
+    path: '/my/edit',
+    name: 'edit',
+    component: () => import('@/views/edit')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login')

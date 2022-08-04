@@ -26,7 +26,7 @@
               <van-button @click="showPopup(item)" class="comm-btn">{{item.reply_count}}评论</van-button>
             </div>
             <van-popup style="height: 90%" v-model="show" get-container="body" position="bottom">
-              <comm-incomm @addCount="addCount(item)" :item="commitem" :artid="artid" :likeComm="likeComm"></comm-incomm>
+              <comm-incomm @closePop="closePop" @addCount="addCount(item)" :item="commitem" :artid="artid" :likeComm="likeComm"></comm-incomm>
             </van-popup>
           </van-cell>
         </van-list>
@@ -93,8 +93,8 @@ export default {
       this.commitem = item
       this.show = true
     },
-    onReply () {
-      this.isreply = true
+    closePop () {
+      this.show = false
     },
     addCount (item) {
       item.reply_count++

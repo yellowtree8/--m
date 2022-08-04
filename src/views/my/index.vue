@@ -16,7 +16,7 @@
             />
             <span class="user-name">{{userData.name}}</span>
           </div>
-          <van-button class="data-change" round size="mini">编辑资料</van-button>
+          <van-button class="data-change" round size="mini" to="/my/edit">编辑资料</van-button>
         </div>
         <div class="account-data">
           <div class="account-item">
@@ -33,7 +33,7 @@
           </div>
           <div class="account-item">
             <span class="num">{{userData.like_count}}</span>
-            <span class="item">粉丝</span>
+            <span class="item">获赞</span>
           </div>
         </div>
       </div>
