@@ -1,24 +1,28 @@
 <template>
     <div class="channel-show">
       <van-nav-bar class="close-nav">
-        <i slot="left" class="toutiao toutiao-guanbi"></i>
+        <i slot="left" class="toutiao toutiao-guanbi" @click='$emit("popIn")'></i>
       </van-nav-bar>
        <van-cell title="我的频道" class="my-channel" >
         <span slot="default" class="write-button" v-if="isedited == false" @click="onEdit">编辑</span>
         <span slot="default" class="write-button" v-else @click="onEdit">完成</span>
        </van-cell>
        <van-grid gutter="10px" class="mychannel">
-        <van-grid-item class="grid-item" v-for="(item,index) in userchannel" :key="index" :text="item.name">
+        <van-grid-item class="grid-item mychannel-gird" v-for="(item,index) in userchannel" :key="index" @click="!isedited?$emit('changeChannel',index):function(){return}">
+          <div class="grid-content">
+            <div class="mychannel-name">{{item.name}}</div>
+            <i class="mychannel-close toutiao toutiao-guanbi" v-if="isedited == true" @click="deleteChannel(item.id, index)"></i>
+          </div>
         </van-grid-item>
       </van-grid>
        <van-cell title="频道推荐" class="channel-advise" />
-       <van-grid class="mychannel">
+       <van-grid gutter="10px" class="mychannel">
         <van-grid-item v-for="(item,index) in morechannel" :key="index" :text="item.name" @click="addChannel(item)"/>
       </van-grid>
     </div>
 </template>
 <script>
-import { getAllchannels, patchNewchannel } from '@/api/user'
+import { getAllchannels, patchNewchannel, deleteChannel } from '@/api/user'
 import { setItem } from '@/utils/storage'
 export default {
   name: 'ChannelShow',
@@ -74,6 +78,18 @@ export default {
       } catch (err) {
         console.log('用户未认证')
       }
+    },
+    async deleteChannel (id, index) {
+      try {
+        this.userchannel.splice(index, 1)
+        if (this.$store.state.user) {
+          await deleteChannel(id)
+        } else {
+          setItem('channels', this.userchannel)
+        }
+      } catch (err) {
+        console.log('cuocuo', err)
+      }
     }
   }
 }
@@ -86,20 +102,28 @@ export default {
     /deep/ .van-grid-item__content{
       background-color: #f4f5f6;
     }
-    .grid-item::after{
-      font-family: "toutiao";
-      content: "\e605";
-      position: absolute;
-      font-size: 10px;
-      width: 32px;
-      height: 32px;
-      text-align: center;
-      line-height: 32px;
-      right: 2px;
-      top: -12px;
-      border: 1px solid gray;
-      border-radius: 14px;
-      z-index: 999;
+    .mychannel{
+      /deep/ .van-grid-item__content{
+        height: 100px;
+      }
+    }
+    .grid-content{
+      .mychannel-close{
+        display: inline-block;
+        position: absolute;
+        right: -15px;
+        top: -15px;
+        width: 32px;
+        height: 32px;
+        border: 1px solid red;
+        border-radius: 16px;
+        line-height: 32px;
+        text-align: center;
+      }
+      .mychannel-name{
+        font-size: 24px;
+        color: #222222;
+      }
     }
     .close-nav{
       border: none;

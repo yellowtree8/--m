@@ -11,6 +11,17 @@ const routes = [
     component: () => import('@/views/login')
   },
   {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/search')
+  },
+  {
+    path: '/detail/:id',
+    name: 'detail',
+    props: true,
+    component: () => import('@/views/detail')
+  },
+  {
     path: '/',
     name: 'layout',
     redirect: '/home',

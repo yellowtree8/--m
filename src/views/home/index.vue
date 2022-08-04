@@ -1,9 +1,9 @@
 <template>
     <div id="home-container">
       <van-nav-bar class="page-nav-bar">
-        <van-button class="search-btn" slot="title" icon="search" round type="info">搜索</van-button>
+        <van-button @click="$router.push('/search')" class="search-btn" slot="title" icon="search" round type="info">搜索</van-button>
       </van-nav-bar>
-      <van-tabs animated swipeable class="tabs">
+      <van-tabs animated swipeable class="tabs" v-model="active">
         <div slot="nav-right" class="hamburger" @click="showPopup">
           <i class="toutiao toutiao-gengduo"></i>
         </div>
@@ -12,7 +12,7 @@
         </van-tab>
       </van-tabs>
       <van-popup v-model="show" position="top">
-        <channel-show :mychannel="channel"/>
+        <channel-show :mychannel="channel" @popIn="showPopup" @changeChannel="changeChannel($event)"/>
       </van-popup>
     </div>
 </template>
@@ -31,7 +31,8 @@ export default {
     return {
       channel: [],
       articles: [],
-      show: false
+      show: false,
+      active: 0
     }
   },
   watch: {},
@@ -50,7 +51,11 @@ export default {
       }
     },
     showPopup () {
-      this.show = true
+      this.show = !this.show
+    },
+    changeChannel (index) {
+      this.active = index
+      this.show = !this.show
     }
   }
 }

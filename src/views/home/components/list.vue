@@ -7,7 +7,7 @@
           finished-text="没有更多了"
           @load="onLoad"
         >
-          <article-show :article="item"  v-for="(item,index) in list" :key="index"/>
+          <article-show :article="item"  v-for="(item,index) in list" :key="index" />
         </van-list>
       </div>
     </van-pull-refresh>

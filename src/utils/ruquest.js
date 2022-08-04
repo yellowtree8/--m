@@ -1,10 +1,20 @@
 // 请求模块
 import axios from 'axios'
 import store from '@/store'
+import JSONbig from 'json-bigint'
 
 const request = axios.create({
-  baseURL: 'http://toutiao.itheima.net/'
+  baseURL: 'http://toutiao.itheima.net/',
   // 接口的基准路径。这样每次请求就不用输入过长的url
+  transformResponse: [function (data) {
+    try {
+      return JSONbig.parse(data)
+    } catch (err) {
+      return {
+        data
+      }
+    }
+  }]
 })
 // 请求拦截器
 // Add a request interceptor

@@ -48,3 +48,28 @@ export const patchNewchannel = data => {
     data: data
   })
 }
+
+// 删除指定频道
+export const deleteChannel = (id) => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/user/channels/${id}`
+  })
+}
+
+// 关注用户
+export const collectUser = data => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/user/followings',
+    data
+  })
+}
+
+// 取消关注用户
+export const cancelCollectuser = target => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/user/followings/${target}`
+  })
+}
